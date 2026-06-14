@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Request,HTTPException, status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.gzip import GZipMiddleware
 from schemas import CandleCreate, CandlePublicResponse
 from sqlalchemy import select
 from routers import users, candles
@@ -12,6 +14,9 @@ import models
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.add_middleware(GZipMiddleware)
 
 templates = Jinja2Templates(directory="templates")
 

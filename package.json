@@ -1,0 +1,19 @@
+{
+  "name": "fastapi_project",
+  "version": "1.0.0",
+  "description": "Sistema de gestión para PyME con FastAPI y Tailwind CSS v4",
+  "main": "main.py",
+  "scripts": {
+    "dev:css": "npx tailwindcss -i ./src/input.css -o ./static/css/app.css --watch"
+  },
+  "keywords": [],
+  "author": "Joaquin Albano",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.1",
+    "tailwindcss": "^4.3.1"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.1": true
+  }
+}
