@@ -8,9 +8,6 @@ from dependencies import DbSession
 router = APIRouter()
 
 
-
-
-
 # ---- Create e new candle ----
 
 @router.post("", response_model=CandleAdminResponse, status_code=status.HTTP_201_CREATED)

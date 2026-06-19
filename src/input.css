@@ -1,3 +1,7 @@
 @import "tailwindcss";
 
 @source "../templates/**/*.html";
+
+@theme {
+     --color-primary: #90002d; 
+}

@@ -16,6 +16,8 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/media", StaticFiles(directory="media"), name="media")
+
 app.add_middleware(GZipMiddleware)
 
 templates = Jinja2Templates(directory="templates")
@@ -33,7 +35,7 @@ def home(request: Request, db: DbSession):
 
     candles= result.scalars().all()
 
-    return templates.TemplateResponse(request, "home.html", {"candles":candles, "title": "Catalogo de velas"})
+    return templates.TemplateResponse(request, "home.html", {"candles":candles, "title": "Catálogo de velas"})
 
 
 @app.get("/register", response_class=HTMLResponse)
