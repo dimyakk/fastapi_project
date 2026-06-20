@@ -30,12 +30,29 @@ app.include_router(candles.router, prefix="/api/candles", tags=["Candles"])
 # ---- Endpoint Home ----
 @app.get("/", include_in_schema=False)
 @app.get("/candles", include_in_schema=False)
-def home(request: Request, db: DbSession):
-    result= db.execute(select(models.Candle))
+def home(request: Request, db: DbSession, sort_by: str = ""):
+    stmt = select(models.Candle)
 
-    candles= result.scalars().all()
+    sort_options = {
+        "name-asc": models.Candle.name.asc(),
+        "name-desc": models.Candle.name.desc(),
+        "price-asc": models.Candle.price.asc(),
+        "price-desc": models.Candle.price.desc(),
+    }
 
-    return templates.TemplateResponse(request, "home.html", {"candles":candles, "title": "Catálogo de velas"})
+    if sort_by in sort_options:
+        stmt = stmt.order_by(sort_options[sort_by])
+    else:
+        stmt = stmt.order_by(models.Candle.id)
+
+    result = db.execute(stmt)
+    candles = result.scalars().all()
+
+    return templates.TemplateResponse(
+        request,
+        "home.html",
+        {"candles": candles, "title": "Catálogo de velas", "sort_by": sort_by},
+    )
 
 
 @app.get("/register", response_class=HTMLResponse)

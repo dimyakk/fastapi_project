@@ -1,63 +1,188 @@
 {% extends "layout.html" %}
+
 {% block content %}
+
 <section>
-  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+
+  <div class="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+
     <header>
+
       <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">VELAS</h2>
 
     </header>
 
-    <div class="mt-8 block lg:hidden">
-      <button class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
-        <span class="text-sm font-medium"> Filters &amp; Sorting </span>
 
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 rtl:rotate-180">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
-        </svg>
-      </button>
+
+    <!-- Ordenar: sticky en móvil (debajo del header) -->
+
+    <div class="sticky top-16 z-40 -mx-4 border-b border-gray-200 bg-white px-4 py-3 sm:-mx-6 sm:px-6 lg:hidden">
+
+      <label for="sort-by-mobile" class="mb-1 block text-xs font-medium text-gray-700">Ordenar por</label>
+
+      <select
+
+        id="sort-by-mobile"
+
+        class="sort-select w-full rounded-sm border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-0"
+
+      >
+
+        <option value="" {% if not sort_by %}selected{% endif %}>Ordenar por</option>
+
+        <option value="name-asc" {% if sort_by == "name-asc" %}selected{% endif %}>A - Z</option>
+
+        <option value="name-desc" {% if sort_by == "name-desc" %}selected{% endif %}>Z - A</option>
+
+        <option value="price-desc" {% if sort_by == "price-desc" %}selected{% endif %}>Preço: Maior ao Menor</option>
+
+        <option value="price-asc" {% if sort_by == "price-asc" %}selected{% endif %}>Preço: Menor ao Maior</option>
+
+      </select>
+
     </div>
 
-    <div class="mt-4 lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8">
-      <div class="hidden space-y-4 lg:block">
-        <div>
-          <label for="SortBy" class="block text-xs font-medium text-gray-700"> Ordenar por </label>
 
-          <select id="SortBy" class="mt-1 rounded-sm border-gray-300 text-sm">
-            <option>Ordenar por</option>
-            <option value="Title, DESC">Z - A</option>
-            <option value="Title, ASC">A - Z</option>
-            <option value="Price, DESC">Preço: Maior ao Menor</option>
-            <option value="Price, ASC">Preço: Menor ao Maior</option>
-          </select>
-        </div>
 
-      </div>
+    <div class="mt-4 lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-6">
 
-      <div class="lg:col-span-3">
-        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {% for candle in candles%}
+      <!-- Ordenar: sidebar sticky en desktop -->
+
+      <aside class="hidden lg:block lg:sticky lg:top-20 lg:self-start">
+
+        <label for="sort-by-desktop" class="block text-xs font-medium text-gray-700">Ordenar por</label>
+
+        <select
+
+          id="sort-by-desktop"
+
+          class="sort-select mt-1 w-full rounded-sm border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-0"
+
+        >
+
+          <option value="" {% if not sort_by %}selected{% endif %}>Ordenar por</option>
+
+          <option value="name-asc" {% if sort_by == "name-asc" %}selected{% endif %}>A - Z</option>
+
+          <option value="name-desc" {% if sort_by == "name-desc" %}selected{% endif %}>Z - A</option>
+
+          <option value="price-desc" {% if sort_by == "price-desc" %}selected{% endif %}>Preço: Maior ao Menor</option>
+
+          <option value="price-asc" {% if sort_by == "price-asc" %}selected{% endif %}>Preço: Menor ao Maior</option>
+
+        </select>
+
+      </aside>
+
+
+
+      <div class="mt-4 lg:col-span-3 lg:mt-0">
+
+        <ul
+
+          id="candle-grid"
+
+          class="grid grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 sm:gap-x-3 xl:grid-cols-4"
+
+        >
+
+          {% for candle in candles %}
+
           <li>
-            <a href="#" class="group block overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&amp;fit=crop&amp;q=80&amp;w=1160" alt="" class="h-87.5 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-112.5">
+
+            <a href="/{{ candle.id }}" class="group block w-full overflow-hidden">
+
+              <div class="aspect-[5/6] overflow-hidden bg-gray-100">
+
+                <img
+
+                  src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&amp;fit=crop&amp;q=80&amp;w=1160"
+
+                  alt="{{ candle.name }}"
+
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+
+                >
+
+              </div>
+
+
 
               <div class="relative bg-white pt-3">
-                <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+
+                <h3 class="text-xs text-gray-700 transition group-hover:text-gray-700/75">
+
                   {{ candle.name }}
+
                 </h3>
 
-                <p class="mt-2">
-                  <span class="sr-only"> Pre </span>
 
-                  <span class="tracking-wider text-gray-900"> R${{ candle.price }} </span>
+
+                <p class="mt-2">
+
+                  <span class="sr-only">Preço</span>
+
+                  <span class="tracking-wider text-gray-900">R${{ candle.price }}</span>
+
                 </p>
+
               </div>
+
             </a>
+
           </li>
+
           {% endfor %}
+
         </ul>
+
       </div>
+
     </div>
+
   </div>
+
 </section>
+
 {% endblock content %}
+
+
+
+{% block scripts %}
+
+<script>
+
+  document.querySelectorAll(".sort-select").forEach((select) => {
+
+    select.addEventListener("change", () => {
+
+      const value = select.value;
+
+      const url = new URL(window.location.href);
+
+
+
+      if (value) {
+
+        url.searchParams.set("sort_by", value);
+
+      } else {
+
+        url.searchParams.delete("sort_by");
+
+      }
+
+
+
+      window.location.href = url.toString();
+
+    });
+
+  });
+
+</script>
+
+{% endblock scripts %}
+
+
 

@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+---
+
+FastAPI project for candle shop management.
+
+Technologies:
+- FastAPI
+- SQLAlchemy
+- SQLite
+- Jinja2
+- HTML
+- CSS
+
+Objectives:
+- Learn backend development.
+
+- Keep code simple.
+
+- Prioritize clarity over premature optimization.
+
+When proposing changes:
+- Explain the architecture first.
+
+- Then the implementation.
+
+- Finally, the code.
