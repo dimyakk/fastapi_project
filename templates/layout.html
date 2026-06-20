@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         {% if title %}
-            FastAPI App - {{ title }}
+            {{ title }} - Velas
         {% else %}
-            FastAPI App
+            VELAS
         {% endif %}
     </title>
-    <link rel="stylesheet" href="{{url_for('static',path='/css/app.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',path='/css/app.css') }}">
 </head>
 <body class="flex min-h-screen flex-col">
 
@@ -18,9 +18,9 @@
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <div class="md:flex md:items-center md:gap-12">
-        <a class="block text-teal-600" href="#">
+        <a class="block text-teal-600" href="{{ url_for('home') }}">
           <span class="sr-only">Home</span>
-          <img class="h-8" src="{{ url_for('media', path='logo/logo_v1.png') }}" alt="Logo de Velas">
+          <img class="h-8" src="{{ url_for('static', path='logo/logo_v1.png') }}" alt="Logo de Velas">
         </a>
       </div>
 
@@ -94,7 +94,7 @@
       <div class="flex justify-center lg:justify-start">
         <img
           class="h-28 w-auto sm:h-32"
-          src="{{ url_for('media', path='logo/logo_v3.png') }}"
+          src="{{ url_for('static', path='logo/logo_v3.png') }}"
           alt="Naná Essência"
         >
       </div>

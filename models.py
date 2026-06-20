@@ -11,7 +11,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     creation_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
-    
+
 
 
 class Candle(Base):
@@ -25,16 +25,16 @@ class Candle(Base):
     price: Mapped[float] = mapped_column(Float, nullable=False)
     cost: Mapped[float | None] = mapped_column(Float, nullable=True)
     stock: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    
+
     #Control de visibilidad
     is_hidden: Mapped[bool] = mapped_column(Boolean, default=False)
     creation_date: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), 
+        DateTime(timezone=True),
         default=lambda: datetime.now(UTC)
         )
     update_date: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), 
-        default=lambda: datetime.now(UTC), 
+        DateTime(timezone=True),
+        default=lambda: datetime.now(UTC),
         onupdate= lambda:datetime.now(UTC)
         )
     image_file: Mapped[str | None] = mapped_column(String(120),nullable=True)
@@ -42,10 +42,10 @@ class Candle(Base):
     @property
     def has_stock(self) -> bool:
         """Retorna True si hay stock disponible, de lo contrario retorna False"""
-        return self.stock > 0  
-    
+        return self.stock > 0
+
     @property
     def image_path(self) -> str:
         if self.image_file:
             return f"/media/candle_pic/{self.image_file}"
-        return "/static/candle_pic/default.jpg"
+        return "/static/candle_pic/default.jpeg"

@@ -28,8 +28,8 @@ app.include_router(candles.router, prefix="/api/candles", tags=["Candles"])
 
 
 # ---- Endpoint Home ----
-@app.get("/", include_in_schema=False)
-@app.get("/candles", include_in_schema=False)
+@app.get("/", include_in_schema=False, name="home")
+@app.get("/candles", include_in_schema=False, name="candles")
 def home(request: Request, db: DbSession, sort_by: str = ""):
     stmt = select(models.Candle)
 
@@ -51,7 +51,7 @@ def home(request: Request, db: DbSession, sort_by: str = ""):
     return templates.TemplateResponse(
         request,
         "home.html",
-        {"candles": candles, "title": "Catálogo de velas", "sort_by": sort_by},
+        {"candles": candles, "title": "Naná Essência", "sort_by": sort_by},
     )
 
 
