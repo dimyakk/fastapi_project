@@ -1,4 +1,152 @@
 {% extends "layout.html" %}
+
 {% block content %}
-    <h2>{{ candle.name }}</h2>
+
+<section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+  <!-- Breadcrumb -->
+  <nav class="mb-6 text-xs text-gray-500">
+    <a href="/" class="transition hover:text-primary">Inicio</a>
+    <span class="mx-2">/</span>
+    <span class="text-gray-700">{{ candle.name }}</span>
+  </nav>
+
+  <div class="grid grid-cols-1 gap-10 lg:grid-cols-2">
+
+    <!-- ===== GALERÍA IZQUIERDA ===== -->
+    <div class="flex flex-col gap-4 lg:flex-row-reverse">
+
+      <!-- Imagen principal -->
+      <div class="flex-1 overflow-hidden bg-gray-100 aspect-[5/6]">
+        <img
+          id="main-image"
+          src="{{ candle.image_path }}"
+          alt="{{ candle.name }}"
+          class="h-full w-full object-cover"
+        >
+      </div>
+
+      <!-- Miniaturas verticales -->
+      <div class="flex flex-row gap-2 lg:flex-col">
+
+        <button
+          onclick="document.getElementById('main-image').src=this.querySelector('img').src"
+          class="thumbnail-btn w-20 h-20 flex-shrink-0 overflow-hidden bg-gray-100 border-2 border-primary"
+        >
+          <img src="{{ candle.image_path }}" alt="Foto 1" class="h-full w-full object-cover">
+        </button>
+
+        <button
+          onclick="document.getElementById('main-image').src=this.querySelector('img').src"
+          class="thumbnail-btn w-20 h-20 flex-shrink-0 overflow-hidden bg-gray-100 border-2 border-transparent hover:border-primary transition"
+        >
+          <img src="{{ candle.image_path }}" alt="Foto 2" class="h-full w-full object-cover">
+        </button>
+
+        <button
+          onclick="document.getElementById('main-image').src=this.querySelector('img').src"
+          class="thumbnail-btn w-20 h-20 flex-shrink-0 overflow-hidden bg-gray-100 border-2 border-transparent hover:border-primary transition"
+        >
+          <img src="{{ candle.image_path }}" alt="Foto 3" class="h-full w-full object-cover">
+        </button>
+
+        <button
+          onclick="document.getElementById('main-image').src=this.querySelector('img').src"
+          class="thumbnail-btn w-20 h-20 flex-shrink-0 overflow-hidden bg-gray-100 border-2 border-transparent hover:border-primary transition"
+        >
+          <img src="{{ candle.image_path }}" alt="Foto 4" class="h-full w-full object-cover">
+        </button>
+
+      </div>
+    </div>
+
+    <!-- ===== INFORMACIÓN DERECHA ===== -->
+    <div class="flex flex-col gap-6">
+
+      <!-- Nombre y esencia -->
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">{{ candle.name }}</h1>
+        <p class="mt-1 text-sm text-gray-500 tracking-wider">{{ candle.scent }}</p>
+      </div>
+
+      <!-- Precio -->
+      <div>
+        <p class="text-2xl font-semibold text-primary">R$ {{ "%.2f"|format(candle.price) }}</p>
+      </div>
+
+      <!-- Disponibilidad -->
+      <div>
+        {% if candle.has_stock %}
+          <span class="inline-flex items-center gap-2 text-sm text-green-700">
+            <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+            En stock
+          </span>
+        {% else %}
+          <span class="inline-flex items-center gap-2 text-sm text-gray-400">
+            <span class="inline-block w-2 h-2 rounded-full bg-gray-300"></span>
+            Sin stock
+          </span>
+        {% endif %}
+      </div>
+
+      <!-- Acciones: favorito + compartir -->
+      <div class="flex items-center gap-4">
+        <button
+          aria-label="Agregar a favoritos"
+          class="flex items-center gap-2 border border-gray-300 px-4 py-2 text-sm text-gray-600 transition hover:border-primary hover:text-primary"
+        >
+          <!-- Ícono corazón -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+          </svg>
+          Favorita
+        </button>
+
+        <button aria-label="Compartir" class="flex items-center gap-2 border border-gray-300 px-4 py-2 text-sm text-gray-600 transition hover:border-primary hover:text-primary">
+          <!-- Ícono compartir -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185z" />
+          </svg>
+          Compartir
+        </button>
+
+        <button aria-label="Agregar al carrito" class="flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+           <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+           </svg>
+           Adicionar
+        </button>
+      </div>
+
+      <!-- Divisor -->
+      <hr class="border-gray-200">
+
+      <!-- Descripción -->
+      {% if candle.description %}
+      <div>
+        <h2 class="text-sm font-semibold text-gray-900 mb-2">Descripción</h2>
+        <p class="text-sm text-gray-600 leading-relaxed">{{ candle.description }}</p>
+      </div>
+      {% endif %}
+
+      <!-- Detalles del producto -->
+      <div>
+        <h2 class="text-sm font-semibold text-gray-900 mb-3">Detalles</h2>
+        <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <div>
+            <dt class="text-gray-500">Esencia</dt>
+            <dd class="mt-1 text-gray-900">{{ candle.scent }}</dd>
+          </div>
+          <div>
+            <dt class="text-gray-500">Tamaño</dt>
+            <dd class="mt-1 text-gray-900">{{ candle.size }}g</dd>
+          </div>
+        </dl>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
 {% endblock content %} 
