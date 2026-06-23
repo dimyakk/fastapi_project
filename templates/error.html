@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section
+  class="relative flex flex-1 min-h-[70vh] items-center justify-center bg-[url('/static/error/error.png')] bg-cover bg-center px-4 py-20 sm:px-6 lg:px-8">
+    <div class="absolute inset-0 bg-white/60"></div>
+    <div class="relative text-center">
+
+     <!-- Código de error -->
+     <p class="text-7xl font-bold text-primary sm:text-9xl">Oops!</p>
+
+
+     <!-- Descripción -->
+     <p class="mt-3 text-sm text-gray-500 sm:text-base">
+      <div style="white-space: pre-line;">
+        {{ message }}
+      </div>
+     </p>
+
+     <!-- Acción -->
+     <div class="mt-8">
+      <a href="{{ url_for('home') }}" class="inline-flex items-center gap-2 bg-primary px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+        </svg>
+        LEVE-ME A PAGINA INICIAL
+      </a>
+     </div>
+
+    </div>
+    
+
+</section>
+
+{% endblock content %}
