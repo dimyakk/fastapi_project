@@ -15,7 +15,7 @@ from routers import users, candles
 from database import Base, engine
 from dependencies import DbSession
 import models
-
+from constants import GENERIC_ERROR_MESSAGE
 
 @asynccontextmanager
 async def lifespan(_app:FastAPI):
@@ -34,10 +34,6 @@ templates = Jinja2Templates(directory="templates")
 app.include_router(users.router, prefix="/api/users", tags=["Users"])
 app.include_router(candles.router, prefix="/api/candles", tags=["Candles"])
 
-GENERIC_ERROR_MESSAGE = (
-    "A página que você buscou não foi encontrada...\n"
-    "Mas não se preocupe, viemos resgatar você!"
-)
 
 # ---- Endpoint Home ----
 @app.get("/", include_in_schema=False, name="home")
@@ -77,7 +73,7 @@ async def get_candle(candle_id: int,request: Request, db: DbSession):
     if not candle:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
-            detail= "A página que você buscou não foi encontrada...\nMas não se preocupe, viemos resgatar você!"
+            detail= GENERIC_ERROR_MESSAGE
         )
 
     return templates.TemplateResponse(request, "candle.html", {"candle": candle, "title": candle.name})
