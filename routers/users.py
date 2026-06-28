@@ -11,8 +11,8 @@ router = APIRouter()
 # ---- Create a new public user ----
 
 @router.post("", response_model=UserPublicResponse,status_code=status.HTTP_201_CREATED,)
-def register_public_user(user_in: UserPublicCreate, db: DbSession):
-    result = db.execute(
+async def register_public_user(user_in: UserPublicCreate, db: DbSession):
+    result = await db.execute(
         select(models.User).where(models.User.username == user_in.username)
     )
     existing_user = result.scalars().first()
@@ -23,7 +23,7 @@ def register_public_user(user_in: UserPublicCreate, db: DbSession):
             detail= "User already exists"
         )
     
-    result = db.execute(
+    result = await db.execute(
         select(models.User).where(models.User.email == user_in.email)
     )
     existing_email = result.scalars().first()
@@ -40,8 +40,8 @@ def register_public_user(user_in: UserPublicCreate, db: DbSession):
     )
 
     db.add(new_public_user)
-    db.commit()
-    db.refresh(new_public_user)
+    await db.commit()
+    await db.refresh(new_public_user)
 
     return new_public_user
 
@@ -49,8 +49,8 @@ def register_public_user(user_in: UserPublicCreate, db: DbSession):
 # ---- Get a public user ----
 
 @router.get("/{user_id}", response_model=UserPublicResponse)
-def get_user(user_id: int, db: DbSession):
-    result = db.execute(
+async def get_user(user_id: int, db: DbSession):
+    result = await db.execute(
         select(models.User).where(models.User.id == user_id)
     )
     user = result.scalars().first()
@@ -67,8 +67,8 @@ def get_user(user_id: int, db: DbSession):
 # ---- Get a list for the public users ----
 
 @router.get("", response_model=list[UserPublicResponse])
-def get_all_users(db: DbSession):
-    result = db.execute(
+async def get_all_users(db: DbSession):
+    result = await db.execute(
         select(models.User)
     )
 
@@ -80,13 +80,13 @@ def get_all_users(db: DbSession):
 # ---- User Update ----
 
 @router.patch("/{user_id}", response_model=UserPublicResponse)
-def update_user(
+async def update_user(
     user_id:int, 
     user_update:UserUpdate, 
     db:DbSession
     ):
 
-    result = db.execute(select(models.User).where(models.User.id == user_id))
+    result = await db.execute(select(models.User).where(models.User.id == user_id))
     user = result.scalars().first()
 
     if not user:
@@ -96,7 +96,7 @@ def update_user(
         )
 
     if user_update.username is not None and user_update.username != user.username:
-        result = db.execute(select(models.User).where(models.User.username == user_update.username))
+        result = await db.execute(select(models.User).where(models.User.username == user_update.username))
 
         existing_user= result.scalars().first()
 
@@ -107,7 +107,7 @@ def update_user(
         )
     
     if user_update.email is not None and user_update.email != user.email:
-        result = db.execute(
+        result = await db.execute(
             select(models.User).where(models.User.email == user_update.email)
         )
 
@@ -123,8 +123,8 @@ def update_user(
     for field, value in update_data.items():
         setattr(user,field,value)
     
-    db.commit()
-    db.refresh(user)
+    await db.commit()
+    await db.refresh(user)
 
     return user
 
@@ -132,8 +132,8 @@ def update_user(
 # ---- Delete a user ----
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_user(user_id: int, db: DbSession):
-    result = db.execute(select(models.User).where(models.User.id == user_id))
+async def delete_user(user_id: int, db: DbSession):
+    result = await db.execute(select(models.User).where(models.User.id == user_id))
     user = result.scalars().first()
 
     if not user:
@@ -142,8 +142,8 @@ def delete_user(user_id: int, db: DbSession):
         detail= "User not found"
         )
 
-    db.delete(user)
-    db.commit()
+    await db.delete(user)
+    await db.commit()
 
     return
 
