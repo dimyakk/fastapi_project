@@ -2,7 +2,6 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
-
 # ===== SCHEMAS FOR USERS =====
 
 
@@ -12,7 +11,7 @@ class UserBase(BaseModel):
     email: EmailStr = Field(max_length=120)
 
 
-class UserPublicCreate(UserBase): 
+class UserPublicCreate(UserBase):
     pass
 
 class UserAdminCreate(UserPublicCreate):
@@ -45,7 +44,7 @@ class UserAdminResponse(UserPublicResponse):
 class CandleBase(BaseModel):
 
     name: str = Field(..., min_length=1, max_length=100)
-    scent: str = Field(..., min_length=1, max_length=100)    
+    scent: str = Field(..., min_length=1, max_length=100)
     description: str | None = Field(default=None)
     size: int = Field(..., gt=0, description="Tamaño en gramos (gr)")
     price: float = Field(..., gt=0, description="Precio de venta al publico")
@@ -61,7 +60,7 @@ class CandleCreate(CandleBase):
 class CandleUpdate(CandleBase):
 
     name: str | None= Field(default=None, min_length=1, max_length=100)
-    scent: str | None= Field(default=None, min_length=1, max_length=100)    
+    scent: str | None= Field(default=None, min_length=1, max_length=100)
     description: str | None = Field(default=None)
     size: int | None = Field(default=None, gt=0, description="Tamaño en gramos (gr)")
     price: float | None= Field(default=None, gt=0, description="Precio de venta al publico")
