@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@source "../templates/admin/**/*.html";
+
+@theme {
+  --color-primary: #90002d;
+}

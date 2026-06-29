@@ -4,7 +4,8 @@
   "description": "Sistema de gestión para PyME con FastAPI y Tailwind CSS v4",
   "main": "main.py",
   "scripts": {
-    "dev:css": "npx tailwindcss -i ./src/input.css -o ./static/css/app.css --watch"
+    "dev:css": "npx tailwindcss -i ./src/input.css -o ./static/css/app.css --watch",
+    "dev:admin": "npx tailwindcss -i ./src/admin.css -o ./static/css/admin.css --watch"
   },
   "keywords": [],
   "author": "Joaquin Albano",
