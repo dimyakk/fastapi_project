@@ -11,7 +11,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.gzip import GZipMiddleware
-from routers import users, candles
+from routers import users, candles, admin
 from database import Base, engine
 from dependencies import DbSession
 import models
@@ -30,14 +30,15 @@ app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/media", StaticFiles(directory="media"), name="media")
 app.add_middleware(GZipMiddleware)
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="templates/shop")
 app.include_router(users.router, prefix="/api/users", tags=["Users"])
 app.include_router(candles.router, prefix="/api/candles", tags=["Candles"])
+app.include_router(admin.router, prefix="/admin", tags=["Admin"])
 
 
 # ---- Endpoint Home ----
 @app.get("/", include_in_schema=False, name="home")
-@app.get("/candles", include_in_schema=False, name="candles")
+@app.get("/products", include_in_schema=False, name="products")
 async def home(request: Request, db: DbSession, sort_by: str = ""):
     stmt = select(models.Candle)
 
