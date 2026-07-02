@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request,HTTPException, status
 from contextlib import asynccontextmanager
 from fastapi.exception_handlers import (
-    http_exception_handler, 
+    http_exception_handler,
     request_validation_exception_handler
 )
 from fastapi.exceptions import RequestValidationError
@@ -91,7 +91,7 @@ async def general_http_exception_handler(request: Request, exception: StarletteH
 
     if request.url.path.startswith("/api"):
         return await http_exception_handler(request, exception)
-    
+
     return templates.TemplateResponse(
         request,
         "error.html",
@@ -106,10 +106,10 @@ async def general_http_exception_handler(request: Request, exception: StarletteH
 # ---- Exception Handler for validation error ----
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exception: RequestValidationError):
-     
+
     if request.url.path.startswith("/api"):
         return await request_validation_exception_handler(request, exception)
-    
+
     return templates.TemplateResponse(
         request,
         "error.html",
@@ -122,10 +122,7 @@ async def validation_exception_handler(request: Request, exception: RequestValid
     )
 
 
-# ---- Dashboard Admin ----
-@app.get("/admin/dashboard", response_class=HTMLResponse)
-def dashboard():
-    return f"<h1>DASHBOARD PARA ADMIN</h1>"
+
 
 
 # ---- Register Form ----
