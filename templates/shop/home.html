@@ -18,7 +18,7 @@
 
     <div class="sticky top-16 z-40 -mx-4 border-b border-gray-200 bg-white px-4 py-3 sm:-mx-6 sm:px-6 lg:hidden">
 
-      <label for="sort-by-mobile" class="mb-1 block text-xs font-medium text-gray-700">Ordenar por</label>
+      <label for="sort-by-mobile" class="mb-1 block text-xs font-medium text-gray-700">Classificar por</label>
 
       <select
 
@@ -28,7 +28,7 @@
 
       >
 
-        <option value="" {% if not sort_by %}selected{% endif %}>Ordenar por</option>
+        <option value="" {% if not sort_by %}selected{% endif %}>Classificar por</option>
 
         <option value="name-asc" {% if sort_by == "name-asc" %}selected{% endif %}>A - Z</option>
 
