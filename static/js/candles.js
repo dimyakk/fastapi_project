@@ -6,7 +6,7 @@ import { showModal } from "./modal.js";
 const deleteButton = document.querySelectorAll("[data-delete-button]");
 
 //Recorremos cada boton y escuchamos el click
-deleteButtons.forEach((button) => {
+deleteButton.forEach((button) => {
     button.addEventListener("click", () => {
         const candleId = button.dataset.candleId;
         console.log(candleId);
