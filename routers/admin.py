@@ -26,8 +26,7 @@ start_of_month = datetime(
 @router.get("/dashboard", include_in_schema=False, name="dashboard")
 async def dashboard(request:Request, db:DbSession):
 
-    stmt = select(models.Candle)
-    result = await db.execute(stmt)
+    result = await db.execute(select(models.Candle))
     candles = result.scalars().all()
 
     total_candles = await db.scalar(
@@ -83,11 +82,19 @@ async def candles(request:Request):
 
 
 @router.get("/users", include_in_schema=False, name="users")
-async def users(request:Request):
+async def users(request:Request, db:DbSession):
+    result = await db.execute(
+        select(models.User)
+    )
+    all_users = result.scalars().all()
+    print(all_users)
     return templates.TemplateResponse(
         request,
         "users.html",
-        {"title": "Usuarios"},
+        {
+            "title": "Usuarios",
+            "users": all_users,
+        },
     )
 
 
