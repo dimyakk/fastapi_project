@@ -71,7 +71,7 @@ async def get_all_candles(db: DbSession):
 
 # ---- Candle Update ----
 
-@router.patch("/{candle_id}", response_model=CandlePublicResponse)
+@router.patch("/{candle_id}", response_model=CandleAdminResponse)
 async def update_candle(candle_id:int, candle_update:CandleUpdate, db:DbSession):
 
     result = await db.execute(select(models.Candle).where(models.Candle.id == candle_id))

@@ -64,6 +64,7 @@ class CandleUpdate(CandleBase):
     description: str | None = Field(default=None)
     size: int | None = Field(default=None, gt=0, description="Tamaño en gramos (gr)")
     price: float | None= Field(default=None, gt=0, description="Precio de venta al publico")
+    is_hidden: bool | None= Field(default=None, description="Si es True, oculta la vela del catalogo publico")
 
 class CandlePublicResponse(CandleBase):
 

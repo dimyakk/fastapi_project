@@ -40,7 +40,7 @@ app.include_router(admin.router, prefix="/admin", tags=["Admin"])
 @app.get("/", include_in_schema=False, name="home")
 @app.get("/products", include_in_schema=False, name="products")
 async def home(request: Request, db: DbSession, sort_by: str = ""):
-    stmt = select(models.Candle)
+    stmt = select(models.Candle).where(models.Candle.is_hidden == False)
 
     sort_options = {
         "name-asc": models.Candle.name.asc(),
@@ -67,7 +67,12 @@ async def home(request: Request, db: DbSession, sort_by: str = ""):
 # ---- Candle ----
 @app.get("/{candle_id}", include_in_schema=False)
 async def get_candle(candle_id: int,request: Request, db: DbSession):
-    result= await db.execute(select(models.Candle).where(models.Candle.id == candle_id))
+    result= await db.execute(
+        select(models.Candle).where(
+            models.Candle.id == candle_id,
+            models.Candle.is_hidden == False,
+            )
+        )
 
     candle= result.scalars().first()
 
